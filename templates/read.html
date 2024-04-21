@@ -1,23 +1,45 @@
-{% extends 'base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Read Posts</title>
+    <style>
+        body { f
+            font-family: Arial, sans-serif; 
+        }
+        ul { 
+            list-style-type: none; padding: 0; 
+        }
+        li { 
+            border: 1px solid #ccc; margin-top: 10px; padding: 10px; 
+        }
+        button {
+             cursor: pointer; 
+            }
 
-{% block container %}
-<h2>Read</h2>
-<p>This page shows information pulled from a MongoDB database collection.
-        
-    {% for doc in docs %}
-    <div>
-        <hr class="solid">
-        <p class="post">
-            Posted by {{doc.name}} at {{ doc.created_at.strftime("%H:%M on %d %B %Y") }}
-            <br/>
-            <a href="{{ url_for('edit',mongoid=doc._id)}}">Edit</a> | <a href="{{ url_for('delete',mongoid=doc._id)}}">Delete</a>
-            <br/>
-        </p>
-        <p>
-            {{ doc.message }}
-        </p>
-            
-    </div>
-    {%endfor%}
-</p>
-{% endblock %}
+        form { 
+            display: inline; 
+        }
+    </style>
+</head>
+<body>
+<div>
+    <h1>List of Posts</h1>
+    <ul>
+        {% for post in posts %}
+            <li>
+                <h3>{{ post.title }}</h3>
+                <p><strong>Description:</strong> {{ post.description }}</p>
+                <p><strong>Location:</strong> {{ post.location }}</p>
+                <p><strong>Rating:</strong> {{ post.rating }}</p>
+                <a href="edit.html">Edit</a>
+                <form action="/delete/{{ post._id }}" method="POST" style="display: inline;">
+                    <button type="submit">Delete</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+    <a href="create.html">Create New Post</a> | <a href="index.html">Home</a>
+</div>
+</body>
+</html>
